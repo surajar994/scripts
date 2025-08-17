@@ -14,17 +14,18 @@ parser.add_argument('-c', '--cc', nargs='*', default=[], help='CC recipients (op
 
 args = parser.parse_args()
 
+user     = os.getenv("mail_user")
+password = os.getenv("mail_pass")
+
 msg             = EmailMessage()
 msg['Subject']  = args.subject
-msg['From']     = 'surajar994@gmail.com'
+msg['From']     = user
 msg['To']       = args.to_addr
 msg['Cc']       = args.cc
 
 msg.set_content("This is a fallback plain-text version.")
 msg.add_alternative(args.body, subtype='html')
 
-user     = os.getenv("mail_user")
-password = os.getenv("mail_pass")
 
 with smtplib.SMTP('smtp.gmail.com', 587) as server:
     server.starttls()  # Secure the connection
